@@ -1,18 +1,73 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+ENV/
+env/
+.venv
 
-# Other files and folders
+# Django
+*.log
+local_settings.py
+db.sqlite3
+media/
+.env
+.env.local
+
+# Node/React
+node_modules/
+/.pnp
+.pnp.js
+/build
+/dist
+build/
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
 .settings/
+*.sublime-project
+*.sublime-workspace
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# OS
+.DS_Store
+Thumbs.db
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Docker
+.dockerignore

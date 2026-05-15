@@ -1,0 +1,73 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: gestion_stock_db
+    environment:
+      POSTGRES_DB: gestion_stock_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - gestion_stock_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: gestion_stock_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - gestion_stock_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: gestion_stock_backend
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=gestion_stock_db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./backend:/app
+    networks:
+      - gestion_stock_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: gestion_stock_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000/api
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+    networks:
+      - gestion_stock_network
+
+volumes:
+  postgres_data:
+
+networks:
+  gestion_stock_network:
+    driver: bridge
